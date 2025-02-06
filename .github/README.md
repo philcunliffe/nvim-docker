@@ -2,7 +2,7 @@
     <img src="https://raw.githubusercontent.com/neovim/neovim.github.io/master/logos/neovim-logo-300x87.png">
 </div>
 
-# nvim-docker
+<h1 align="center">nvim-docker</h1>
 
 Run [Neovim](https://neovim.io/) using Docker—directly in your terminal or in your browser using [ttyd](https://github.com/tsl0922/ttyd).
 
