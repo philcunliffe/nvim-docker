@@ -31,7 +31,7 @@ Defaults to expose only nvim to the webui. To make is expose shell (zsh), change
   <DonateLink/>
   <Requires>Run a command in the terminal before starting the container from the GUI, in order for configurations to be set up properly.&#xD;
 &#xD;
-docker run -it --rm -v /mnt/user/appdata/lazyvim:/root -e NVIM_DISTRO="lazyvim" ghcr.io/lanjelin/lazyvim-docker:latest</Requires>
+docker run -it --rm -v /mnt/user/appdata/nvim-docker:/root -e NVIM_DISTRO="lazyvim" ghcr.io/lanjelin/nvim-docker:latest</Requires>
   <Config Name="WEB UI" Target="7681" Default="7681" Mode="tcp" Description="" Type="Port" Display="always" Required="false" Mask="false">7681</Config>
   <Config Name="Config" Target="/root" Default="/mnt/user/appdata/nvim-docker" Mode="rw" Description="Persist configuration between runs" Type="Path" Display="always" Required="false" Mask="false">/mnt/user/appdata/nvim-docker</Config>
   <Config Name="Files" Target="/edit" Default="" Mode="rw" Description="Path to files/project to mount inside the container" Type="Path" Display="always" Required="false" Mask="false"/>
