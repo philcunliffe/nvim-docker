@@ -36,6 +36,7 @@ jobs:
           file: ./Dockerfile
           tags: |
             ghcr.io/${{ secrets.REGISTRY_USER }}/nvim-docker:latest
+            ghcr.io/${{ secrets.REGISTRY_USER }}/nvim-docker:$(date +'%Y.%m.%d')
           labels: maintainer=${{ secrets.REGISTRY_USER }}
       
       - name: Build and push slim 
