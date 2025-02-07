@@ -30,18 +30,6 @@ jobs:
           username: ${{ secrets.REGISTRY_USER }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
 
-      - name: Build and push
-        id: push
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          push: true
-          file: ./Dockerfile
-          tags: |
-            ghcr.io/${{ secrets.REGISTRY_USER }}/nvim-docker:latest
-            ghcr.io/${{ secrets.REGISTRY_USER }}/nvim-docker:${{ env.DATE_TAG }}
-          labels: maintainer=${{ secrets.REGISTRY_USER }}
-      
       - name: Build and push slim 
         id: pushslim
         uses: docker/build-push-action@v6
@@ -50,7 +38,18 @@ jobs:
           push: true
           file: ./Dockerfile.slim
           tags: |
-            ghcr.io/${{ secrets.REGISTRY_USER }}/nvim-docker:slim
             ghcr.io/${{ secrets.REGISTRY_USER }}/nvim-docker:slim-${{ env.DATE_TAG }}
+            ghcr.io/${{ secrets.REGISTRY_USER }}/nvim-docker:slim
           labels: maintainer=${{ secrets.REGISTRY_USER }}
  
+      - name: Build and push
+        id: push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          file: ./Dockerfile
+          tags: |
+            ghcr.io/${{ secrets.REGISTRY_USER }}/nvim-docker:${{ env.DATE_TAG }}
+            ghcr.io/${{ secrets.REGISTRY_USER }}/nvim-docker:latest
+          labels: maintainer=${{ secrets.REGISTRY_USER }}
