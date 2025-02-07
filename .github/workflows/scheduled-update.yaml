@@ -48,5 +48,6 @@ jobs:
           file: ./Dockerfile.slim
           tags: |
             ghcr.io/${{ secrets.REGISTRY_USER }}/nvim-docker:slim
+            ghcr.io/${{ secrets.REGISTRY_USER }}/nvim-docker:slim-$(date +'%Y.%m.%d')
           labels: maintainer=${{ secrets.REGISTRY_USER }}
  
