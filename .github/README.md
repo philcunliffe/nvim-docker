@@ -62,14 +62,14 @@ nvim () {
   if [ ! $# -eq 0 ]; then
     [[ -d "$1" ]] || [[ -f "$1" ]] || touch "$1"
     [[ -f "$1" ]] && NWD="$(dirname $1)" || NWD="$(realpath $1)"
-    docker run -it --rm --name nvim-docker \
+    docker run -it --rm --name nvim-docker-cli \
     -w "/edit$NWD" \
     -v "$(realpath $1)":"/edit$(realpath $1)" \
     -v /mnt/user/appdata/nvim-docker:/root \
     ghcr.io/lanjelin/nvim-docker:latest \
     nvim "/edit$(realpath $1)"
   else
-    docker run -it --rm --name nvim-docker \
+    docker run -it --rm --name nvim-docker-cli \
     -w "/root" \
     -v /mnt/user/appdata/nvim-docker:/root \
     ghcr.io/lanjelin/nvim-docker:latest \
