@@ -6,7 +6,7 @@ fi
 # Installing Distro if set.
 if [ -n "$NVIM_DISTRO" ]; then
   NVIM_DISTRO="${NVIM_DISTRO,,}"
-  if [ ! -d "/root/.config/nvim" ] || [ ! -d "/root/.config/lvim" ]; then
+  if [ ! -d "/root/.config/nvim" ] && [ ! -d "/root/.config/lvim" ]; then
     if [ "$NVIM_DISTRO" == "lazyvim" ]; then
       git clone https://github.com/LazyVim/starter /root/.config/nvim
       rm -rf /root/.config/nvim/.git
