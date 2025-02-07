@@ -16,6 +16,9 @@ jobs:
 
     steps:
 
+      - name: Set date tag
+        run: echo "DATE_TAG=$(date +'%Y.%m.%d')" >> $GITHUB_ENV
+
       - name: Checkout
         uses: actions/checkout@v4 
 
@@ -36,7 +39,7 @@ jobs:
           file: ./Dockerfile
           tags: |
             ghcr.io/${{ secrets.REGISTRY_USER }}/nvim-docker:latest
-            ghcr.io/${{ secrets.REGISTRY_USER }}/nvim-docker:$(date +'%Y.%m.%d')
+            ghcr.io/${{ secrets.REGISTRY_USER }}/nvim-docker:${{ env.DATE_TAG }}
           labels: maintainer=${{ secrets.REGISTRY_USER }}
       
       - name: Build and push slim 
@@ -48,6 +51,6 @@ jobs:
           file: ./Dockerfile.slim
           tags: |
             ghcr.io/${{ secrets.REGISTRY_USER }}/nvim-docker:slim
-            ghcr.io/${{ secrets.REGISTRY_USER }}/nvim-docker:slim-$(date +'%Y.%m.%d')
+            ghcr.io/${{ secrets.REGISTRY_USER }}/nvim-docker:slim-${{ env.DATE_TAG }}
           labels: maintainer=${{ secrets.REGISTRY_USER }}
  
