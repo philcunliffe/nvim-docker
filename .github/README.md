@@ -82,6 +82,32 @@ After adding this, reload your shell:
 source ~/.zshrc  # or `source ~/.bashrc`
 ```
 
+Or add this function to your `~/.config/fish/config.fish`:
+```fish
+function nvim
+    if set -q argv[1]
+        test -d "$argv[1]" || test -f "$argv[1]" || touch "$argv[1]"
+        test -f "$argv[1]" && set NWD "$(dirname $argv[1])" || set NWD "$(realpath $argv[1])"
+        docker run -it --rm --name nvim-docker-cli \
+        -w "/edit$NWD" \
+        -v "$(realpath $argv[1])":"/edit$(realpath $argv[1])" \
+        -v /mnt/user/appdata/nvim-docker:/root \
+        ghcr.io/lanjelin/nvim-docker:latest \
+        nvim "/edit$(realpath $argv[1])"
+    else
+        docker run -it --rm --name nvim-docker-cli \
+        -w "/root" \
+        -v /mnt/user/appdata/nvim-docker:/root \
+        ghcr.io/lanjelin/nvim-docker:latest \
+        nvim
+    end
+end
+```
+After adding this, reload your shell:
+```fish
+source ~/.config/fish/config.fish
+```
+
 ---
 
 ## 🛠 UnRaid Setup
