@@ -28,16 +28,20 @@ RUN \
     cargo \
     python3 \
     zsh \
-    ttyd && \
+    ttyd \
+    openssh && \
   pacman -Scc --noconfirm && \
   wget -q -O /usr/sbin/ttyd.nerd https://github.com/Lanjelin/nerd-ttyd/releases/download/1.7.7/ttyd.x86_64 && \
   chmod +x /usr/sbin/ttyd.nerd && \
   mkdir -p /edit
+
+RUN ssh-keygen -A
+RUN mkdir -p /var/run/sshd
 
 COPY entrypoint.sh .
 
 VOLUME /root
 WORKDIR /root
 
-EXPOSE 7681
+EXPOSE 7681 22
 CMD ["/bin/bash", "/entrypoint.sh"]
