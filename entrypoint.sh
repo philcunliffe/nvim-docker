@@ -1,4 +1,7 @@
 #!/bin/bash
+
+/usr/sbin/sshd
+
 # Installing ohmyzsh
 if ! [ -f "/root/.zshrc" ]; then
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
