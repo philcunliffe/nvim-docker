@@ -1,0 +1,43 @@
+name: Scheduled Update
+
+on:
+  schedule:
+    - cron: "0 3 * * 6"
+  push:
+    paths-ignore:
+      - "**.md"
+      - "**.yaml"
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  do-stuff-pretty-please:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Set date tag
+        run: echo "DATE_TAG=$(date +'%Y.%m.%d')" >> $GITHUB_ENV
+
+      - name: Checkout
+        uses: actions/checkout@v4 
+
+      - name: Login to image repository
+        id: login
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.REGISTRY_USER }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+ 
+      - name: Build and push
+        id: push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          file: ./Dockerfile
+          tags: |
+            ghcr.io/${{ secrets.REGISTRY_USER }}/nvim-docker-ssh:${{ env.DATE_TAG }}
+            ghcr.io/${{ secrets.REGISTRY_USER }}/nvim-docker-ssh:latest
+          labels: maintainer=${{ secrets.REGISTRY_USER }}
