@@ -1,10 +1,9 @@
-FROM archlinux:base
+FROM alpine:latest
 
 ENV PATH="${PATH}:/root/.local/bin"
 
-RUN \
-  pacman -Syu --noconfirm && \
-  pacman -S --noconfirm \
+# install all tooling in one go, no cache
+RUN apk add --no-cache \
     fd \
     gcc \
     fzf \
@@ -18,10 +17,11 @@ RUN \
     neovim \
     ripgrep \
     lazygit \
-    python-pip \
-    pkg-config \
-    base-devel \
+    py3-pip \
+    pkgconfig \
+    build-base \
     go \
+    nodejs \
     npm \
     ruby \
     yarn \
@@ -29,19 +29,24 @@ RUN \
     python3 \
     zsh \
     ttyd \
-    openssh && \
-  pacman -Scc --noconfirm && \
-  wget -q -O /usr/sbin/ttyd.nerd https://github.com/Lanjelin/nerd-ttyd/releases/download/1.7.7/ttyd.x86_64 && \
-  chmod +x /usr/sbin/ttyd.nerd && \
-  mkdir -p /edit
+    openssh
 
-RUN ssh-keygen -A
-RUN mkdir -p /var/run/sshd
+# download custom ttyd binary, set perms, create /edit
+RUN wget -q -O /usr/sbin/ttyd.nerd \
+      https://github.com/Lanjelin/nerd-ttyd/releases/download/1.7.7/ttyd.x86_64 \
+    && chmod +x /usr/sbin/ttyd.nerd \
+    && mkdir -p /edit
+
+# generate SSH host keys and ensure sshd runtime dir exists
+RUN ssh-keygen -A \
+    && mkdir -p /var/run/sshd
 
 COPY entrypoint.sh .
 
-VOLUME /root
-WORKDIR /root
+VOLUME /root /notes
+WORKDIR /notes
 
 EXPOSE 7681 22
+
 CMD ["/bin/bash", "/entrypoint.sh"]
+
