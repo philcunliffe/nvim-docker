@@ -42,8 +42,11 @@ RUN ssh-keygen -A \
     && mkdir -p /var/run/sshd
 
 RUN if [ ! -d "/root/.config/nvim" ]; then \
-        git clone "https://github.com/philcunliffe/nvim-notes.git" /root/.config/nvim \
-    fi
+    echo "Cloning nvim-notes repository..." && \
+    git clone --depth 1 "https://github.com/philcunliffe/nvim-notes.git" /root/.config/nvim; \
+  else \
+    echo "/root/.config/nvim already exists, skipping clone."; \
+  fi
 
 COPY entrypoint.sh .
 
