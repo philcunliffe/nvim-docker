@@ -41,6 +41,10 @@ RUN wget -q -O /usr/sbin/ttyd.nerd \
 RUN ssh-keygen -A \
     && mkdir -p /var/run/sshd
 
+RUN if [ ! -d "/root/.config/nvim" ]; then \
+        git clone "https://github.com/philcunliffe/nvim-notes.git" /root/.config/nvim \
+    fi
+
 COPY entrypoint.sh .
 
 VOLUME /root /notes
@@ -48,5 +52,5 @@ WORKDIR /notes
 
 EXPOSE 7681 22
 
-CMD ["/bin/bash", "/entrypoint.sh"]
+CMD ["/usr/sbin/sshd", "-D", "-e"]
 
